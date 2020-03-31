@@ -1,0 +1,75 @@
+---
+name: PerfectArrow
+menu: Components
+---
+
+import { Playground, Props } from "docz";
+import PerfectArrow from "./PerfectArrow";
+
+# Perfect Arrow
+
+Perfect arrow mathematically fills a given `width` and `height` perfectly. It guarantees a pointed vertex and curved stems.
+
+## Properties
+
+<Props of={PerfectArrow} />
+
+## Usage
+
+<Playground>
+  <PerfectArrow
+    width={25}
+    height={50}
+    strokeWidth={5}
+    color={"#ccc"}
+    direction={"right"}
+    // Optional
+    // - Any remaining props get passed through to first elem
+    style={{ margin: "20px" }}
+    className={"classname"}
+    id={"id"}
+  />
+</Playground>
+
+## More examples
+
+<Playground>
+  <div>
+    {[0, 1, 2, 3, 4, 5].map(i => {
+      return (
+        <PerfectArrow
+          width={25}
+          height={50}
+          strokeWidth={(i + 1) * 2}
+          color={"#ccc"}
+          direction={"right"}
+          style={{ margin: "20px 10px 20px 20px" }}
+        />
+      );
+    })}
+  </div>
+  <PerfectArrow
+    width={25}
+    height={50}
+    strokeWidth={5}
+    color={"#ccc"}
+    direction={"left"}
+    style={{ margin: "20px 10px 20px 20px" }}
+  />
+  <PerfectArrow
+    width={50}
+    height={25}
+    strokeWidth={5}
+    color={"#ccc"}
+    direction={"top"}
+    style={{ margin: "20px 10px 20px 20px" }}
+  />
+  <PerfectArrow
+    width={50}
+    height={25}
+    strokeWidth={5}
+    color={"#ccc"}
+    direction={"bottom"}
+    style={{ margin: "20px 10px 20px 20px" }}
+  />
+</Playground>

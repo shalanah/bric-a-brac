@@ -45,9 +45,9 @@ const PerfectArrow = ({
   style = {},
   ...props
 }) => {
-  const isHorizontal = ["top", "bottom"].includes(direction);
-  const w = isHorizontal ? height : width;
-  const h = isHorizontal ? width : height;
+  const rotate = ["top", "bottom"].includes(direction); // always render right arrow first these will get turned 90 degrees
+  const w = rotate ? height : width;
+  const h = rotate ? width : height;
 
   // So console error if bad values given
   const maxStrokeWidth = Math.min(w / 2, h / 4);

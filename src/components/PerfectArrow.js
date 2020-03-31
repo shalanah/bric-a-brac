@@ -81,6 +81,7 @@ const PerfectArrow = ({
         }}
       >
         <path
+          strokeMiterlimit="100000" // ridiculously large miter limit for good measure,,, default for some reason is only 4
           fill={"transparent"}
           strokeLinecap={"round"}
           d={`M${halfStroke},${halfStroke} ${w - deltaVertexX / 2},${h /

@@ -49,7 +49,7 @@ const PerfectArrow = ({
   const w = rotate ? height : width;
   const h = rotate ? width : height;
 
-  // So console error if bad values given
+  // Console error if bad values given
   const maxStrokeWidth = Math.min(w / 2, h / 4);
   if (s >= maxStrokeWidth)
     console.error(`Max stroke width is ${maxStrokeWidth}.`);

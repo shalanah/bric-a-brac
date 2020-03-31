@@ -38,6 +38,7 @@ Perfect arrow mathematically fills a given `width` and `height` perfectly. It gu
     {[0, 1, 2, 3, 4, 5].map(i => {
       return (
         <PerfectArrow
+          key={i}
           width={25}
           height={50}
           strokeWidth={(i + 1) * 2}

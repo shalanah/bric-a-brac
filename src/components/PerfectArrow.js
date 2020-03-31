@@ -4,15 +4,35 @@ import t from "prop-types";
 const quadraticFormula = (a, b, c) => {
   const discriminate = b ** 2 - 4 * a * c;
   if (discriminate < 0) {
-    console.error(
-      `Discriminate is negative: ${discriminate}. Cannot calculate arrow with those initial values`
-    );
-    return [];
+    console.error(`Discriminate is negative: ${discriminate}.`);
+    return;
   } else {
     return [
       (-b + discriminate ** 0.5) / (2 * a),
       (-b - discriminate ** 0.5) / (2 * a)
     ];
+  }
+};
+
+const getTransforms = ({ direction, width, height }) => {
+  switch (direction) {
+    case "left":
+      return {
+        transform: "scaleX(-1)",
+        transformOrigin: "center center"
+      };
+    case "top":
+      return {
+        transform: `translateY(${width}px) rotate(-90deg)`,
+        transformOrigin: "0 0"
+      };
+    case "bottom":
+      return {
+        transform: `translateX(${height}px) rotate(90deg)`,
+        transformOrigin: "0 0"
+      };
+    default:
+      return {};
   }
 };
 
@@ -28,32 +48,20 @@ const PerfectArrow = ({
   const isHorizontal = ["top", "bottom"].includes(direction);
   const w = isHorizontal ? height : width;
   const h = isHorizontal ? width : height;
-  let transform;
-  let transformOrigin;
-  switch (direction) {
-    case "left":
-      transform = "scaleX(-1)";
-      transformOrigin = "center center";
-      break;
-    case "top":
-      transform = `translateY(${w}px) rotate(-90deg)`;
-      transformOrigin = "0 0";
-      break;
-    case "bottom":
-      transform = `translateX(${h}px) rotate(90deg)`;
-      transformOrigin = "0 0";
-      break;
-    default:
-      break;
-  }
 
-  // Memorize some of this stuff
+  // So console error if bad values given
+  const maxStrokeWidth = Math.min(w / 2, h / 4);
+  if (s >= maxStrokeWidth)
+    console.error(`Max stroke width is ${maxStrokeWidth}.`);
+
+  // TODO: Memorize some of this stuff?
   const halfStroke = s / 2;
   const a = (h - s) ** 2 - s ** 2;
   const b = 4 * s ** 2 * w - 2 * s ** 3;
   const c =
     -((h - s) ** 2 * s ** 2) - 4 * w ** 2 * s ** 2 + 4 * w * s ** 3 - s ** 4;
-  const deltaVertexX = Math.max(...quadraticFormula(a, b, c)); // only care about the positive value
+  const solns = quadraticFormula(a, b, c) || [0]; // falling back to [0] just to not fully error out
+  const deltaVertexX = Math.max(...solns); // only care about the positive values (max)
   return (
     <div
       style={{
@@ -75,9 +83,8 @@ const PerfectArrow = ({
           boxSizing: "border-box",
           width: w,
           height: h,
-          transformOrigin,
-          transform,
-          overflow: "visible"
+          overflow: "visible",
+          ...getTransforms({ direction, width: w, height: h })
         }}
       >
         <path
